@@ -1,8 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Backbone from 'backbone'
-import Homepage from './homepage'
-import ArtistsView from './ArtistsView'
+import ArtistsView from './artistsView'
 
 //example of a request url for artists https://api.spotify.com/v1/search?q=tania%20bowra&type=artist
 
@@ -17,6 +16,7 @@ const app = function() {
 
 	})
 
+	//need model..?
 	var ApolloRouter = Backbone.Router.extend({
 
 		routes: {
@@ -27,6 +27,7 @@ const app = function() {
 
 		doArtistsSearch: function (query) {
 			var searchCollection = new artistsCollection()
+			console.log(searchCollection)
 			searchCollection.fetch({
 				data: {
 					q: query,
@@ -34,14 +35,14 @@ const app = function() {
 				}
 
 			}).then(function(){ 
-				ReactDOM.render(<ArtistsView artistsColl = {searchCollection} />, document.querySelector('.container'))
+				ReactDOM.render(<ArtistsView artistsColl = {searchCollection}  />, document.querySelector('.container'))
 
 			})
 
 		},
 
 		showHomepage: function() {
-			ReactDOM.render(<Homepage />, document.querySelector('.container'))
+			ReactDOM.render(<ArtistsView />, document.querySelector('.container'))
 
 		},
 
