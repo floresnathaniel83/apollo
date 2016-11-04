@@ -1,48 +1,59 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-
+import Header from './header'
 
 const ArtistsView = React.createClass({
 	render: function() {
-		console.log(this.props.artistsColl)
+		//console.log(this.props.artistsColl)
 		return (
-				<div className = 'homepage'>
+				<div className = 'artistsView'>
 					<Header />
-					<ArtistsContainer artistsColl = {this.props.searchCollection}/>
+					<ArtistsContainer artistsColl = {this.props.artistsColl} />
 
 				</div>
 			)
 	}
 })
 
-const Header = React.createClass({
-	render: () => {
-		return <h5>APOLLO</h5>
-	}
-})
+const ArtistsContainer =  React.createClass({
+	_getJsxArray: function (artistsArray) {
+		var jsxArray = []
+		artistsArray.forEach(function(model){
+			jsxArray.push(<Artist artistModel = {model} />)
 
-const ArtistsContainer =  React.createClass ({
-	_doSearch: function (e) {
-		if(e.keyCode === 13) {
-			location.hash = "search/" + e.target.value 
-			console.log(location.hash)
-			//next steps render the artists and move search up to header...
-		}
+		})
 		
-	},
+		return jsxArray
 
+	},
+	
 	render: function() {
+		//console.log(this.props.artistsColl.models[0].get('items'))
 		return (
 				<div className = 'artistsContainer'>
-					<p>Type an artist name and click on "Search". Then, click on the artist for albums and details</p>
-					<input placeholder= 'Type an Artist Name' onKeyDown = {this._doSearch} />
-
+					{this._getJsxArray(this.props.artistsColl.models[0].get('items'))}	
 
 				</div>
 
 			)
 
 	} 
+
+})
+
+const Artist = React.createClass({
+	render: function () {
+		console.log(this.props.artistModel)
+		return (
+			<div className = 'artist'>
+		
+
+			</div>
+
+		)
+	}
+
+
 
 })
 

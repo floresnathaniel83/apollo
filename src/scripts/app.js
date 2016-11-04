@@ -2,21 +2,31 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Backbone from 'backbone'
 import ArtistsView from './artistsView'
+import HomeView from './homeView'
 
 //example of a request url for artists https://api.spotify.com/v1/search?q=tania%20bowra&type=artist
 
 const app = function() {
 
-	var artistsCollection = Backbone.Collection.extend({
+	var ArtistsCollection = Backbone.Collection.extend({
 			url: 'https://api.spotify.com/v1/search',
 			parse: function(rawJSON) {
-				return rawJSON.results;
+				console.log(rawJSON)
+				return rawJSON.artists;
 
 		}
 
 	})
 
-	//need model..?
+	var ArtistsModel = Backbone.Collection.extend({
+		url: 'https://api.spotify.com/v1/search',
+		parse: function(rawJSON) {
+			return rawJSON.artists;
+
+		}
+
+	})
+
 	var ApolloRouter = Backbone.Router.extend({
 
 		routes: {
@@ -26,23 +36,24 @@ const app = function() {
 		},
 
 		doArtistsSearch: function (query) {
-			var searchCollection = new artistsCollection()
-			console.log(searchCollection)
-			searchCollection.fetch({
+			var artistsCollection = new ArtistsCollection()
+			artistsCollection.fetch({
+				dataType: 'json', // look into what is happening here
 				data: {
 					q: query,
 					type: 'artist'
 				}
 
 			}).then(function(){ 
-				ReactDOM.render(<ArtistsView artistsColl = {searchCollection}  />, document.querySelector('.container'))
+				//console.log(artistsCollection)
+				ReactDOM.render(<ArtistsView artistsColl = {artistsCollection}  />, document.querySelector('.container'))
 
 			})
 
 		},
 
 		showHomepage: function() {
-			ReactDOM.render(<ArtistsView />, document.querySelector('.container'))
+			ReactDOM.render(<HomeView />, document.querySelector('.container'))
 
 		},
 
