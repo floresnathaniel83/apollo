@@ -38,7 +38,7 @@ const app = function() {
 		doArtistsSearch: function (query) {
 			var artistsCollection = new ArtistsCollection()
 			artistsCollection.fetch({
-				dataType: 'json', // look into what is happening here
+				dataType: 'json', // look into what is happening here why do you need to add this if json is the default 
 				data: {
 					q: query,
 					type: 'artist'
